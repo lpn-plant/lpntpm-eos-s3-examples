@@ -289,23 +289,24 @@ end
 //***************************
 // LPC Peripheral instantiation
 //***************************
-LPC_Peri lpc_peri_inst(
- // LPC Interface
-.lpc_lclk(lpc_lclk),
-.lpc_lreset_n(lpc_lreset_n),
-.lpc_lframe_n(lpc_lframe_n),
-.lpc_lad_in(lpc_lad_in),
-.i_addr_hit(i_addr_hit_sig),
-.o_current_state(o_current_peri_state_sig),
-.i_din(i_din_sig),
-.o_lpc_data_in(o_lpc_data_in_sig),
-.o_lpc_data_out(o_lpc_data_out_sig),
-.o_lpc_addr(o_lpc_addr_sig),
-.o_lpc_en(o_lpc_en_sig),
-.o_io_rden_sm(o_io_rden_sm_sig),
-.o_io_wren_sm(o_io_wren_sm_sig),
+lpc_periph lpc_periph_inst(
+// LPC Interface
+.clk_i(lpc_lclk),
+.nrst_i(lpc_lreset_n),
+.lframe_i(lpc_lframe_n),
+.lad_bus(lpc_lad_in),
+.addr_hit_i(i_addr_hit_sig),
+.current_state_o(o_current_peri_state_sig),
+.din_i(i_din_sig),
+.lpc_data_in_o(o_lpc_data_in_sig),
+.lpc_data_out_o(o_lpc_data_out_sig),
+.lpc_addr_o(o_lpc_addr_sig),
+.lpc_en_o(o_lpc_en_sig),
+.io_wren_sm_o(o_io_wren_sm_sig),
+.io_rden_sm_o(o_io_wren_sm_sig),
+//----------------------------------
 .TDATA(TDATA_sig),
 .READY(READY_sig)
-);
+);  
     
 endmodule
