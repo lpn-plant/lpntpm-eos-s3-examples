@@ -12,7 +12,8 @@ module AL4S3B_FPGA_Top (
     io_pad,
 	
 	//Wisbone bys clock 80 Mhz
-	clk80Mhz
+	clk80Mhz,
+	led_top
 );
 
 // MODULE Parameters =====================================================================
@@ -24,7 +25,7 @@ module AL4S3B_FPGA_Top (
 // MODULE PORT Declarations and Data Types ===============================================
 
 // io_pad(s)
-inout   wire    [15:0]   io_pad ; //Decreased from [31:0]
+inout   wire    [1:0]   io_pad ; //Decreased from [31:0]
 
 // LPC Slave Interface
 input  wire        lpc_lclk_top         ; // LPC clock 33 Mhz
@@ -34,6 +35,7 @@ inout  wire [ 3:0] lpc_lad_in_top       ; // Bi-directional 4-bit LAD bus (tri-s
 
 //Wisbone clock
  output wire clk80Mhz;               //Clock 80 Mhz
+ inout  wire led_top;
 
 // MODULE INTERNAL Signals ===============================================================
 
@@ -81,14 +83,13 @@ gclkbuff u_gclkbuff_reset ( .A(Sys_Clk0_Rst | WB_RST) , .Z(WB_RST_FPGA) );
 gclkbuff u_gclkbuff_clock ( .A(Sys_Clk0             ) , .Z(WB_CLK       ) );
 
 // Sys_Clk0_Rst provides a reset signal for the other FPGA IP logic
-assign RST_IP = Sys_Clk1_Rst; //was: Sys_Clk0_Rst;
+assign RST_IP = Sys_Clk0_Rst; //was: Sys_Clk0_Rst;
 // Sys_Clk0 provides a clock signal for the other FPGA IP logic
-assign CLK_IP = Sys_Clk1; //was: Sys_Clk0;
+assign CLK_IP = Sys_Clk0; //was: Sys_Clk0;
 
 assign Device_ID = 16'hC00F; // GPIO+PWM+BREATHE+TIMER = 0x1|0x2|0x4|0x8 = 0xF
 
 assign clk80Mhz = WB_CLK; //Wisbone bus clock FPGA
-
 
 // Instantiate (sub)Modules ==============================================================
 
@@ -125,6 +126,7 @@ AL4S3B_FPGA_IP
 		.lpc_lreset_n              ( lpc_lreset_n_top           ), // Reset - Active Low 
 		.lpc_lframe_n              ( lpc_lframe_n_top           ), // LPC Frame - Active Low
 		.lpc_lad_in                ( lpc_lad_in_top             ), // Bi-directional 4-bit LAD bus (tri-state)
+		.led					   ( led_top                    )
     );
 
 // Verilog model of QLAL4S3B
