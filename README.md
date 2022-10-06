@@ -1,4 +1,5 @@
-## QORC "EOS S3" Application with embedded "LPC Peripheral" (Verilog RTL)
+## QORC "EOS S3" Application with embedded "LPC Peripheral" 
+
 ### Intro
 
 This is application for SOC "EOS S3" (Quicklogic company) with embedded 
