@@ -38,7 +38,9 @@ module AL4S3B_FPGA_ONION_LPCCTRL (
 	lpc_lclk,     // LPC clock 33 Mhz
 	lpc_lreset_n, // Reset - Active Low 
 	lpc_lframe_n, // LPC Frame - Active Low
-	lpc_lad_in    // Bi-directional 4-bit LAD bus (tri-state)	
+	lpc_lad_in,   // Bi-directional 4-bit LAD bus (tri-state)	
+	
+	led
 );
 
 
@@ -93,6 +95,8 @@ input  wire        lpc_lreset_n     ; // Reset - Active Low
 input  wire        lpc_lframe_n     ; // Frame - Active Low
 inout  wire [ 3:0] lpc_lad_in       ; // Bi-directional 4-bit LAD bus (tri-state)	
 
+inout  wire        led              ;
+
 // MODULE INTERNAL Signals ===============================================================
 
 reg     [31:0]  BREATHE_0_CONFIG   = 32'h00000000;         
@@ -126,11 +130,13 @@ wire        o_lpc_en_sig;
 wire        o_io_rden_sm_sig;
 wire        o_io_wren_sm_sig;
 reg  [31:0] TDATA_sig;
-reg         READY_sig; 
+wire         READY_sig; 
 //--------------------------
 reg clock_33Mhz_enable;
 wire [3:0] counter;
 wire [3:0] divisor = 4'h3;
+reg [19:0] cnt3 = 20'h00000;
+reg [19:0] cnt1 = 20'h00000;
 
 // MODULE LOGIC ==========================================================================
 
@@ -234,44 +240,25 @@ always @( posedge WBs_CLK_i)
 begin
   if (clock_33Mhz_enable)
   begin
-     if (READY_sig)
-     begin
-	   BREATHE_0_CONFIG_TMP = TDATA_sig; //all cycle data sent in one 32-bit register
-	   TIMER_o = 4'b1111;  //activate interrupt for MCU part
-	 end
-	 else
-	 begin
-	   TIMER_o = 4'b0000;  //deactivate interrupt for MCU part		
-	 end
+       cnt3 = cnt3 + 1;
+       if ((cnt3 >= 10000) && (cnt3 < 20000))
+       begin 
+	     if (cnt3==10000)
+	     begin 	 
+		   if (READY_sig)
+		   begin
+			   BREATHE_0_CONFIG = TDATA_sig; //all cycle data sent in one 32-bit register
+			   TIMER_o = 4'b1111;  //activate interrupt for MCU part
+		   end
+    	 end  
+       end
+       else if (cnt3 >= 20000)
+       begin
+	      cnt3 = 20'h00000;
+	      TIMER_o = 4'b0000;  //deactivate interrupt for MCU part	   
+       end
   end
-  else TIMER_o = 4'b0000;
 end 
-
-// Logic for determine cycle type and send cycle data
-//always @( posedge WBs_CLK_i)
-//begin
-//    if (lframe_i_sig == 1'b1)
-//    begin	
-//      was_new_frame = 1'b1; //New cycle started
-//    end
-//    if ((wbm_stb_o_sig==1'b1)&&(wbm_cyc_o_sig==1'b1)&&(was_new_frame==1'b1)) //cycle address and data ready
-//    begin
-//	  if (wbm_tga_o_sig==2'b01) //if this is TPM cycle
-//	  begin
-//	  	was_new_frame = 1'b0;
-//        BREATHE_0_CONFIG_TMP = wbm_adr_o_sig;
-//        BREATHE_1_CONFIG_TMP = wbm_dat_o_sig;
-//        if (wbm_we_o_sig==1'b1) BREATHE_2_CONFIG_TMP = 32'h00000001; //write op
-//        else BREATHE_2_CONFIG_TMP = 32'h00000000; //read op
-//        TIMER_o = 4'b1111;  //activate interrupt for MCU part
-//      end
-//	end
-//	else
-//	begin
-//	  TIMER_o = 4'b0000;  //deactivate interrupt for MCU part		
-//    end
-//end
-
 
 //define READ logic for the registers
 always @(*)

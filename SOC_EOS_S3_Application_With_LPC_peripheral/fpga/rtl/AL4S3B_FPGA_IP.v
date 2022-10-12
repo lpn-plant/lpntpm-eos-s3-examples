@@ -30,7 +30,9 @@ module AL4S3B_FPGA_IP (
 	lpc_lclk,     // LPC clock 33 Mhz
 	lpc_lreset_n, // Reset - Active Low 
 	lpc_lframe_n, // LPC Frame - Active Low
-    lpc_lad_in    // Bi-directional 4-bit LAD bus (tri-state)	
+    lpc_lad_in,    // Bi-directional 4-bit LAD bus (tri-state)	
+	
+	led
 	
 );
 
@@ -105,11 +107,11 @@ output      wire    [31:0]      WBs_RD_DAT      ; // Wishbone Read Data Bus
 output      wire                WBs_ACK         ; // Wishbone Client Acknowledge
 
 // io_pad
-inout       wire    [15:0]      io_pad         ; // io_pad of the EOSS3
+inout       wire    [1:0]      io_pad           ; // io_pad of the EOSS3
 
 // FPGA Interrupts
-output      wire    [3:0]       FPGA_INTR       ;
-
+output      wire    [3:0]      FPGA_INTR        ;
+inout       wire               led              ;
 
 // MODULE INTERNAL Signals ===============================================================
 
@@ -210,6 +212,7 @@ AL4S3B_FPGA_ONION_LPCCTRL
 		.lpc_lreset_n       ( lpc_lreset_n                      ),      // LPC AD Output Enable
 		.lpc_lframe_n       ( lpc_lframe_n                      ),       // LPC AD Input Bus
 		.lpc_lad_in         ( lpc_lad_in                        ),       // LPC AD Output Bus
+		.led                ( led                               )
     );
 
 // Reserved Resources Block

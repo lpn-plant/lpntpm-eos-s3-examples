@@ -42,31 +42,35 @@
 
 // COMMON (recommended, as long as it is understood that these pins are available in the used package)
 // io_pad TOP LEVEL port signals
-set_io      io_pad(0)           IO_0
-set_io      io_pad(1)           IO_1
-set_io      io_pad(2)           IO_2
-set_io      io_pad(3)           IO_3
-set_io      io_pad(4)           IO_4
-set_io      io_pad(5)           IO_5
-set_io      io_pad(6)           IO_6
-set_io      io_pad(7)           IO_7
-set_io      io_pad(8)           IO_8
-set_io      io_pad(9)           IO_9
-set_io      io_pad(10)          IO_10
-set_io      io_pad(11)          IO_11
-set_io      io_pad(12)          IO_12
-set_io      io_pad(13)          IO_13
+set_io      io_pad(0)           IO_10
+set_io      io_pad(1)           IO_11
+
+//set_io      io_pad(2)           IO_2
+//set_io      io_pad(3)           IO_3
+//set_io      io_pad(4)           IO_4
+//set_io      io_pad(5)           IO_5
+//set_io      io_pad(6)           IO_6
+//set_io      io_pad(7)           IO_7
+//set_io      io_pad(8)           IO_8
+//set_io      io_pad(9)           IO_9
+//set_io      io_pad(10)          IO_10
+//set_io      io_pad(11)          IO_11
+//set_io      io_pad(12)          IO_12
+//set_io      io_pad(13)          IO_13
 //set_io      io_pad(14)          IO_14
 //set_io      io_pad(15)          IO_15
 
-set_io      clk80Mhz                IO_16
-set_io      lpc_lframe_n_top        IO_17
-set_io      lpc_lclk_top            IO_21
-set_io      lpc_lad_in_top(3)       IO_19
-set_io      lpc_lad_in_top(2)       IO_20
-set_io      lpc_lad_in_top(1)       IO_18
-set_io      lpc_lad_in_top(0)       IO_22
-set_io      lpc_lreset_n_top        IO_23
+set_io      clk80Mhz                IO_25
+set_io      lpc_lframe_n_top        IO_1
+set_io      lpc_lclk_top            IO_23
+set_io      lpc_lad_in_top(3)       IO_16
+set_io      lpc_lad_in_top(2)       IO_17
+set_io      lpc_lad_in_top(1)       IO_19
+set_io      lpc_lad_in_top(0)       IO_20
+set_io      lpc_lreset_n_top        IO_27
+
+set_io      led_top        IO_22
+
 //set_io      lad_o_top(2)          IO_24
 //set_io      lad_o_top(1)          IO_25
 //set_io      lad_o_top(0)          IO_26
