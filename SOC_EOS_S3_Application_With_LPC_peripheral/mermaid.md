@@ -2,6 +2,7 @@
 
 LPC Peripheral FSM state diagram:
 
+```mermaid
 stateDiagram-v2
     [*] --> LPC_ST_IDLE
     LPC_ST_IDLE --> LPC_ST_IDLE
@@ -35,3 +36,4 @@ stateDiagram-v2
     LPC_ST_DATA_RD_CLK2 --> LPC_ST_FINAL_TAR_CLK1 
     LPC_ST_FINAL_TAR_CLK1 --> LPC_ST_FINAL_TAR_CLK2
     LPC_ST_FINAL_TAR_CLK2 --> LPC_ST_IDLE
+```
